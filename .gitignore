@@ -1,0 +1,7 @@
+.vercel
+.DS_Store
+# full-size capture originals (served copies live in full/)
+raw/
+# design explorations and the retired card version
+directions/
+legacy/

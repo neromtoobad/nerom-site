@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="en" data-pal="mono">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nerom — product engineer</title>
+<meta name="description" content="nerom designs and builds products end to end — AI agents, web apps, payment flows and on-chain systems. 38 shipped, 7 award winners. Open for projects.">
+<meta property="og:title" content="nerom — product engineer">
+<meta property="og:description" content="AI agents, web apps, payment flows and on-chain systems. 38 shipped, 7 award winners.">
+<meta property="og:image" content="https://nerom.site/og.png">
+<meta property="og:url" content="https://nerom.site">
+<link rel="canonical" href="https://nerom.site/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@neromtoobad">
+<meta name="theme-color" content="#09090a">
+<script>try{var p=localStorage.getItem("nerom:pal");if(p&&/^(mono|cobalt|acid|light)$/.test(p))document.documentElement.dataset.pal=p;}catch(e){}</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2309090a'/%3E%3Ctext x='12' y='44' font-family='Arial' font-weight='700' font-size='36' fill='%23f2f1ee'%3En%3C/text%3E%3Ccircle cx='46' cy='41' r='5' fill='%23ff7a3d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<style>
+:root{
+  --bg:#09090a; --bg2:#0e0e10; --surface:#121214; --line:rgba(var(--w),.08); --line2:rgba(var(--w),.15);
+  --text:#f2f1ee; --text2:#d6d5d0; --muted:#9a9994; --muted2:#85847f; --dim:#64635f; --accent:#ff7a3d; --em:#ffb38a; --gold:#e8c27a; --live:#3ddc84;
+  --w:255,255,255; --glow1:rgba(255,138,76,.24); --glow1b:rgba(255,138,76,.06); --glow2:rgba(96,110,255,.17); --field:rgba(0,0,0,.28); --on:#0a0a0a;
+  --sans:"Inter Tight",ui-sans-serif,system-ui,sans-serif; --serif:"Cormorant Garamond",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --expo:cubic-bezier(.16,1,.3,1); --io:cubic-bezier(.65,0,.35,1);
+  --pad:56px;
+  --t-agent:#8b7bff; --t-market:#ff7a3d; --t-money:#4d8dff; --t-privacy:#3ddc84; --t-tool:#f5b83d; --t-play:#ff5c9a; --t-edu:#2fd3c6;
+}
+html[data-pal="mono"]{--accent:#f2f1ee;--em:#cfcfcf;--glow1:rgba(255,255,255,.10);--glow1b:rgba(255,255,255,.03);--glow2:rgba(255,255,255,.06)}
+html[data-pal="cobalt"]{--bg:#070b16;--accent:#5b86ff;--em:#a9bfff;--glow1:rgba(80,120,255,.30);--glow1b:rgba(80,120,255,.07);--glow2:rgba(150,90,255,.20);--dim:#5d6580;--muted:#98a0b8;--muted2:#7e87a2;--text2:#d3d8e6;--live:#4be3a0}
+html[data-pal="acid"]{--bg:#0b0c0b;--accent:#c6ff3d;--em:#d8ff7e;--glow1:rgba(198,255,61,.13);--glow1b:rgba(198,255,61,.04);--glow2:rgba(60,190,255,.10);--on:#0b0c0b}
+html[data-pal="light"]{--bg:#f3f1ec;--text:#111110;--text2:#2b2a27;--muted:#5e5c57;--muted2:#77756f;--dim:#9b988f;--accent:#ff4d1a;--em:#ff4d1a;--gold:#a8770d;--live:#12924f;
+  --w:0,0,0;--glow1:rgba(255,120,60,.16);--glow1b:rgba(255,120,60,.04);--glow2:rgba(80,110,255,.10);--field:#fff;--on:#f3f1ec;color-scheme:light}
+html[data-pal="light"] .grain{mix-blend-mode:multiply;opacity:.05}
+@media (max-width:900px){:root{--pad:24px}}
+@media (max-width:520px){:root{--pad:18px}}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);-webkit-text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--accent);color:#0a0a0a}
+a{color:inherit;text-decoration:none}
+button,input,textarea{font:inherit;color:inherit}
+button{background:none;border:0;cursor:pointer}
+img{display:block;max-width:100%}
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.01em;color:var(--em)}
+.grain{position:fixed;inset:0;z-index:100;pointer-events:none;opacity:.07;mix-blend-mode:screen;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- reveal system ---------- */
+.line{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
+.line>.in{display:block;transform:translateY(108%);transition:transform 1.25s var(--expo)}
+.is-in .line>.in{transform:none}
+.is-in .line:nth-child(2)>.in{transition-delay:.09s}
+.is-in .line:nth-child(3)>.in{transition-delay:.18s}
+.rv{opacity:0;transform:translateY(24px);transition:opacity 1s var(--expo),transform 1.2s var(--expo)}
+.is-in .rv,.rv.is-in{opacity:1;transform:none}
+
+/* ---------- header ---------- */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:22px var(--pad);transition:background .5s,padding .5s var(--expo),border-color .5s;border-bottom:1px solid transparent}
+.hdr.scrolled{background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);padding-top:14px;padding-bottom:14px;border-bottom-color:var(--line)}
+.logo{font-weight:700;font-size:21px;letter-spacing:-.045em}
+.logo i{color:var(--accent);font-style:normal}
+.nav{display:flex;gap:6px;padding:5px;border:1px solid var(--line);border-radius:99px;background:rgba(var(--w),.025)}
+.nav a{font-size:14px;color:var(--muted);padding:7px 15px;border-radius:99px;transition:color .3s,background .3s}
+.nav a:hover,.nav a.on{color:var(--text);background:rgba(var(--w),.07)}
+.hright{justify-self:end;display:flex;align-items:center;gap:14px}
+.pals{display:flex;gap:6px;padding:5px;border:1px solid var(--line);border-radius:99px;background:rgba(var(--w),.025)}
+.pal{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--b) 0 50%,var(--a) 50% 100%);box-shadow:inset 0 0 0 1px rgba(var(--w),.18);transition:transform .4s var(--expo),box-shadow .3s}
+.pal:hover{transform:scale(1.12)}
+.pal[aria-checked="true"]{box-shadow:0 0 0 2px var(--bg),0 0 0 3.5px var(--text)}
+.as{display:none}
+@media (max-width:560px){.al{display:none}.as{display:inline}.hright{gap:8px}.pal{width:19px;height:19px}}
+::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+.avail{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--text2);padding:9px 15px 9px 13px;border:1px solid var(--line2);border-radius:99px;transition:border-color .3s,background .3s}
+.avail:hover{border-color:rgba(var(--w),.35);background:rgba(var(--w),.04)}
+.avail i{width:7px;height:7px;border-radius:50%;background:var(--live);animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(61,220,132,.5)}70%{box-shadow:0 0 0 8px rgba(61,220,132,0)}100%{box-shadow:0 0 0 0 rgba(61,220,132,0)}}
+@media (max-width:1100px){.nav{display:none}.hdr{grid-template-columns:1fr auto}.al{display:none}.as{display:inline}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:max(720px,100svh);overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:168px var(--pad) 40px}
+.glow{position:absolute;border-radius:50%;pointer-events:none}
+.g1{width:1200px;height:1200px;right:-320px;top:-480px;background:radial-gradient(circle,var(--glow1),var(--glow1b) 40%,transparent 65%)}
+.g2{width:1000px;height:1000px;left:-360px;bottom:-560px;background:radial-gradient(circle,var(--glow2),transparent 60%)}
+.tele{position:absolute;top:92px;left:var(--pad);display:flex;gap:24px;color:var(--dim);font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;z-index:3}
+.tele b{color:var(--muted);font-weight:500}
+@media (max-width:640px){.tele .t3,.tele .t4{display:none}}
+.hero-copy{position:relative;z-index:4;max-width:640px;margin-bottom:84px}
+.eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:30px;color:var(--muted2)}
+.eyebrow::before{content:"";width:30px;height:1px;background:var(--accent)}
+.hero-wm{position:relative;display:flex;font-weight:700;font-size:clamp(104px,15.5vw,232px);line-height:.8;letter-spacing:-.07em;margin:0 0 34px -.055em;white-space:nowrap}
+.lead{font-size:clamp(20px,1.7vw,26px);line-height:1.38;letter-spacing:-.022em;color:var(--muted);max-width:23em}
+.lead b{color:var(--text);font-weight:500}
+.lead .stat{display:block;margin-top:14px;font-size:.78em;color:var(--muted2)}
+.sub{margin-top:30px;font-size:clamp(17px,1.35vw,19.5px);line-height:1.55;color:var(--muted);max-width:31em}
+.sub b{color:var(--text2);font-weight:500}
+.ctas{margin-top:38px;display:flex;align-items:center;gap:30px;flex-wrap:wrap}
+.cta{position:relative;height:56px;padding:0 28px;border-radius:99px;background:var(--text);color:var(--on);display:inline-flex;align-items:center;gap:12px;font-weight:600;font-size:16px;transition:transform .5s var(--expo),background .3s;will-change:transform}
+.cta:hover{background:color-mix(in srgb,var(--text) 88%,var(--accent))}
+.cta .arr{transition:transform .5s var(--expo)}
+.cta:hover .arr{transform:translateX(4px)}
+.link{font-size:16px;color:var(--text2);display:inline-flex;gap:10px;align-items:center;padding-bottom:5px;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;transition:background-size .6s var(--expo)}
+.link:hover{background-size:0 1px;background-position:100% 100%}
+.stage{position:absolute;right:-10px;top:150px;width:min(62vw,900px);height:min(74vh,680px);perspective:1800px;z-index:2;transform:rotateY(calc(var(--px,0) * 5deg)) rotateX(calc(var(--py,0) * -4deg));transition:transform 1.2s var(--expo)}
+.screen{position:absolute;left:18%;top:20%;width:min(46vw,660px);aspect-ratio:16/10;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.14);background:#111;box-shadow:0 70px 120px -30px rgba(0,0,0,.95),0 0 0 1px rgba(0,0,0,.5);transform-origin:50% 50%;
+  transition:transform 1.4s var(--expo),filter 1.4s var(--expo),opacity 1s var(--expo);cursor:pointer;padding:0;text-align:left}
+.bar{position:absolute;top:0;left:0;right:0;height:28px;z-index:2;background:rgba(14,14,15,.92);display:flex;align-items:center;gap:6px;padding:0 12px;border-bottom:1px solid rgba(255,255,255,.06)}
+.bar i{width:8px;height:8px;border-radius:50%;background:#38383a}
+.bar span{margin-left:12px;font-family:var(--mono);font-size:10px;color:#7c7b77;letter-spacing:.02em}
+.bar em{margin-left:auto;font-family:var(--mono);font-style:normal;font-size:9.5px;letter-spacing:.14em;color:var(--live)}
+.screen .view{position:absolute;inset:28px 0 0;overflow:hidden}
+.screen .view img{width:100%;height:auto}
+.screen .view img.fit,.media .view img.fit{height:100%;object-fit:cover;object-position:top}
+.screen.s0 .view img.tall{animation:pan 18s var(--io) 1.6s infinite alternate}
+@keyframes pan{to{transform:translateY(calc(-100% + var(--vh,380px)))}}
+.screen .shine{position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.16),transparent 34%)}
+.screen.s0{transform:rotateY(-24deg) rotateX(7deg) rotateZ(-1deg);z-index:3}
+.screen.s1{transform:rotateY(-24deg) rotateX(7deg) translate3d(13%,-21%,-240px);z-index:2;filter:brightness(.55) saturate(.9)}
+.screen.s2{transform:rotateY(-24deg) rotateX(7deg) translate3d(26%,-42%,-480px);z-index:1;filter:brightness(.32) saturate(.8)}
+.screen.enter{opacity:0;transform:rotateY(-32deg) rotateX(14deg) translate3d(12%,34%,320px)}
+.hero-foot{position:relative;z-index:4;display:flex;justify-content:space-between;align-items:center;gap:20px;border-top:1px solid var(--line);padding-top:20px}
+.np{display:flex;gap:26px;align-items:baseline;min-width:0}
+.np .n{color:var(--dim);white-space:nowrap}
+.np .t{font-size:22px;font-weight:600;letter-spacing:-.025em;white-space:nowrap}
+.np .d{font-size:16px;color:var(--muted2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.np .swap{transition:opacity .45s,transform .6s var(--expo)}
+.np.out .swap{opacity:0;transform:translateY(8px)}
+.scrollcue{display:flex;align-items:center;gap:12px;color:var(--dim)}
+.scrollcue i{width:1px;height:28px;background:linear-gradient(var(--text),transparent);animation:cue 2.2s var(--io) infinite;transform-origin:top}
+@keyframes cue{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+@media (max-width:1100px){
+  .hero{justify-content:flex-start;padding-top:136px}
+  .hero-copy{margin-bottom:0;order:1}
+  .hero-wm{font-size:clamp(92px,25vw,190px);margin-bottom:24px}
+  .hero-foot{order:3}
+  .stage{order:2;position:relative;right:auto;top:auto;width:100%;height:clamp(300px,42vw,440px);margin:40px 0 26px;transform:none}
+  .screen{width:min(80vw,620px);left:0;top:16%}
+  .np .d{display:none}
+}
+
+/* ---------- sections ---------- */
+section{position:relative}
+.sec{padding:150px var(--pad) 40px}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap;margin-bottom:72px}
+.h2{font-weight:600;font-size:clamp(48px,6.4vw,96px);line-height:.92;letter-spacing:-.055em}
+.h2 em{font-size:1.1em}
+.sec-sub{max-width:28em;color:var(--muted);font-size:18px}
+.count{color:var(--dim)}
+
+/* featured */
+.feats{display:flex;flex-direction:column;gap:160px}
+.feat{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:64px;align-items:center}
+.feat.flip{grid-template-columns:minmax(0,1fr) minmax(0,1.6fr)}
+.feat.flip .media{order:2}
+.media{position:relative;display:block;aspect-ratio:16/10;border-radius:18px;overflow:hidden;border:1px solid var(--line2);background:#111;
+  clip-path:inset(10% 7% 10% 7% round 18px);transform:scale(1.04);transition:clip-path 1.5s var(--expo),transform 1.6s var(--expo),box-shadow .6s}
+.feat.is-in .media,.ccard.is-in .media{clip-path:inset(0 0 0 0 round 18px);transform:none}
+.media .bar{height:32px;padding:0 14px;gap:7px}
+.media .view{position:absolute;inset:32px 0 0;overflow:hidden}
+.media .view img{width:100%;height:auto;will-change:transform}
+.media::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;background:linear-gradient(115deg,rgba(255,255,255,.08),transparent 30%)}
+.feat .media:hover{box-shadow:0 50px 110px -40px color-mix(in srgb,var(--c) 60%,transparent)}
+.fmeta .idx{color:var(--c)}
+.fmeta h3{font-weight:700;font-size:clamp(56px,6.2vw,96px);letter-spacing:-.065em;line-height:.88;margin:18px 0 22px}
+.pill{display:inline-flex;gap:9px;align-items:center;font-size:13px;padding:7px 13px;border-radius:99px;border:1px solid var(--line2);color:var(--text2);white-space:nowrap}
+.pill.win{color:var(--gold);border-color:rgba(232,194,122,.38)}
+.pill.live{color:var(--live);border-color:rgba(61,220,132,.32)}
+.fmeta p{margin-top:24px;font-size:18px;line-height:1.6;color:var(--muted);max-width:30em}
+.built{list-style:none;margin-top:26px;display:grid;gap:10px}
+.built li{display:flex;gap:12px;align-items:baseline;font-size:15.5px;color:var(--text2)}
+.built li::before{content:"";width:6px;height:6px;flex:none;border-radius:1px;background:var(--c);transform:translateY(-2px) rotate(45deg)}
+.links{margin-top:32px;display:flex;gap:26px;flex-wrap:wrap;align-items:center}
+@media (max-width:980px){.feat,.feat.flip{grid-template-columns:1fr;gap:34px}.feat.flip .media{order:0}.feats{gap:110px}}
+
+/* clients */
+.cgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:36px}
+@media (max-width:980px){.cgrid{grid-template-columns:1fr;gap:60px}}
+.ccard .media{aspect-ratio:16/10}
+.ccard .media .view img{transition:transform 7s var(--io)}
+.ccard .media:hover .view img.tall{transform:translateY(calc(-100% + var(--vh,300px)))}
+.cbody{padding:24px 4px 0}
+.cbody .who{color:var(--c)}
+.cbody h3{font-weight:600;font-size:26px;letter-spacing:-.035em;line-height:1.08;margin:12px 0 12px}
+.cbody p{color:var(--muted);font-size:15.5px;line-height:1.55}
+.cbody .links{margin-top:20px}
+
+/* archive */
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tab{font-size:14px;color:var(--muted);padding:8px 14px;border-radius:99px;border:1px solid transparent;transition:all .3s}
+.tab sup{font-family:var(--mono);font-size:9.5px;margin-left:3px;opacity:.7}
+.tab:hover{color:var(--text)}
+.tab[aria-pressed="true"]{color:var(--text);border-color:var(--line2);background:rgba(var(--w),.04)}
+.rows{border-top:1px solid var(--line2)}
+.row{position:relative;display:grid;grid-template-columns:64px minmax(0,1.3fr) minmax(0,1.3fr) 130px 70px 110px 24px;gap:18px;align-items:center;padding:22px 0;border-bottom:1px solid var(--line);color:var(--muted);font-size:15px}
+.row::before{content:"";position:absolute;inset:0 calc(var(--pad) * -1);background:linear-gradient(90deg,rgba(var(--w),.04),transparent 80%);opacity:0;transition:opacity .4s;pointer-events:none}
+.row:hover::before{opacity:1}
+.row .no{font-family:var(--mono);font-size:11px;color:var(--dim)}
+.row .nm{font-weight:600;font-size:clamp(26px,2.6vw,40px);letter-spacing:-.045em;color:var(--text);line-height:1.05;transition:transform .6s var(--expo);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row:hover .nm{transform:translateX(14px)}
+.row .ev{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .ty{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.row .ty i{width:7px;height:7px;border-radius:1.5px;transform:rotate(45deg);flex:none}
+.row .yr{font-family:var(--mono);font-size:11px;letter-spacing:.12em}
+.row .st{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.row .st.win{color:var(--gold)}.row .st.live{color:var(--live)}
+.row .go{color:var(--dim);transition:transform .5s var(--expo),color .3s}
+.row:hover .go{transform:translate(3px,-3px);color:var(--text)}
+.row[hidden]{display:none}
+@media (max-width:900px){.row{grid-template-columns:34px minmax(0,1fr) 84px;padding:18px 0;gap:12px}.row .ev,.row .ty,.row .yr,.row .go{display:none}}
+.peek{position:fixed;left:0;top:0;z-index:60;width:380px;aspect-ratio:16/10;border-radius:12px;overflow:hidden;pointer-events:none;opacity:0;transition:opacity .35s;box-shadow:0 40px 80px -20px rgba(0,0,0,.9);border:1px solid var(--line2);background:#111}
+.peek img{width:100%;height:100%;object-fit:cover;object-position:top}
+.peek.on{opacity:1}
+@media (hover:none){.peek{display:none}}
+
+/* process */
+.steps{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+@media (max-width:980px){.steps{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.steps{grid-template-columns:1fr}}
+.step{position:relative;padding-top:26px}
+.step::before{content:"";position:absolute;top:0;left:0;height:1px;width:100%;background:var(--line2);transform:scaleX(0);transform-origin:left;transition:transform 1.4s var(--expo)}
+.steps.is-in .step::before{transform:none}
+.steps.is-in .step:nth-child(2)::before{transition-delay:.12s}.steps.is-in .step:nth-child(3)::before{transition-delay:.24s}.steps.is-in .step:nth-child(4)::before{transition-delay:.36s}
+.step .sn{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--accent)}
+.step h4{font-weight:600;font-size:30px;letter-spacing:-.04em;margin:16px 0 12px}
+.step p{color:var(--muted);font-size:16px;line-height:1.6}
+
+/* contact */
+.contact{padding:170px var(--pad) 110px}
+.cwrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:70px;align-items:start}
+@media (max-width:1000px){.cwrap{grid-template-columns:1fr;gap:50px}}
+.giant{font-weight:600;font-size:clamp(60px,8vw,128px);line-height:.88;letter-spacing:-.06em}
+.giant em{font-size:1.1em}
+.contact .sub{margin-top:30px}
+.direct{margin-top:40px;display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.mail{font-size:clamp(22px,2.2vw,30px);font-weight:500;letter-spacing:-.03em}
+.row2{display:flex;gap:22px;flex-wrap:wrap;font-size:15px}
+.row2 a,.row2 button{color:var(--muted);transition:color .3s}
+.row2 a:hover,.row2 button:hover{color:var(--text)}
+.starter{border:1px solid var(--line2);border-radius:22px;padding:30px;background:linear-gradient(180deg,rgba(var(--w),.035),rgba(var(--w),.012))}
+.q{margin-bottom:26px}
+.ql{display:block;margin-bottom:12px;color:var(--muted2)}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{font-size:14px;padding:9px 14px;border-radius:99px;border:1px solid var(--line2);color:var(--text2);transition:all .3s var(--expo)}
+.opt:hover{border-color:rgba(var(--w),.35);color:var(--text)}
+.opt[aria-checked="true"]{background:var(--text);color:var(--on);border-color:var(--text)}
+.field{width:100%;background:var(--field);border:1px solid var(--line2);border-radius:12px;padding:14px 15px;font-size:16px;color:var(--text);outline:none;transition:border-color .3s}
+.field::placeholder{color:var(--dim)}
+.field:focus{border-color:rgba(var(--w),.45)}
+textarea.field{min-height:100px;resize:vertical;margin-top:10px;line-height:1.5}
+.send{display:flex;gap:24px;align-items:center;flex-wrap:wrap}
+
+/* footer */
+.foot{padding:0 var(--pad) 34px;overflow:hidden}
+.fbig{position:relative;display:flex;font-weight:700;font-size:27vw;line-height:.8;letter-spacing:-.075em;margin:0 0 30px -.04em;color:var(--text);user-select:none;white-space:nowrap;
+  -webkit-mask-image:linear-gradient(180deg,#000 35%,rgba(0,0,0,.08) 100%);mask-image:linear-gradient(180deg,#000 35%,rgba(0,0,0,.08) 100%)}
+.wmk span{display:inline-block;transition:transform .7s var(--expo),color .3s;transform-origin:50% 90%}
+.wmk span:hover{transform:translateY(-.06em) rotate(-5deg);color:var(--accent)}
+.wmk .dot{color:var(--accent)}
+.wmk.assembling>span{visibility:hidden}
+.wm-slices{position:absolute;inset:0;pointer-events:none}
+.wm-slice{position:absolute;top:-.3em;bottom:-.3em;overflow:hidden}
+.wm-inner{position:absolute;top:.3em;display:flex;white-space:nowrap;will-change:transform}
+/* intro: the wordmark assembles, then the curtain lifts */
+.intro{position:fixed;inset:0;z-index:150;background:var(--bg);display:grid;place-items:center;clip-path:inset(0 0 0 0);transition:clip-path 1.15s var(--expo)}
+.intro.done{clip-path:inset(0 0 100% 0)}
+.intro .wmk{position:relative;display:flex;font-weight:700;font-size:clamp(96px,20vw,320px);line-height:.8;letter-spacing:-.07em;color:var(--text)}
+.intro .meta{position:absolute;left:var(--pad);right:var(--pad);bottom:34px;display:flex;justify-content:space-between;color:var(--dim)}
+.frow{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:var(--dim);border-top:1px solid var(--line);padding-top:22px}
+.frow b{color:var(--muted);font-weight:500}
+
+/* case view */
+.case{position:fixed;inset:0;z-index:80}
+.case[hidden]{display:none}
+.case-bg{position:absolute;inset:0;background:rgba(5,5,6,.6);opacity:0;transition:opacity .6s}
+.case.open .case-bg{opacity:1}
+.sheet{position:absolute;inset:0;overflow-y:auto;overscroll-behavior:contain;background:var(--bg);clip-path:inset(100% 0 0 0);transition:clip-path 1s var(--expo)}
+.case.open .sheet{clip-path:inset(0 0 0 0)}
+.case-top{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px var(--pad);background:color-mix(in srgb,var(--bg) 84%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav2{display:flex;gap:8px;align-items:center}
+.cbtn{height:40px;padding:0 16px;border-radius:99px;border:1px solid var(--line2);font-size:14px;color:var(--text2);display:inline-flex;align-items:center;gap:8px;transition:all .3s}
+.cbtn:hover{border-color:rgba(var(--w),.4);color:var(--text)}
+:focus{outline:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:12px}
+.case-head{padding:70px var(--pad) 46px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:30px;align-items:end}
+.case-head .idx{color:var(--c)}
+.case-head h2{font-weight:700;font-size:clamp(64px,10vw,170px);letter-spacing:-.07em;line-height:.86;margin-top:18px}
+.cmeta{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+@media (max-width:800px){.case-head{grid-template-columns:1fr;padding-top:44px}.cmeta{justify-content:flex-start}.cbtn .lbl{display:none}}
+.case-body{padding:0 var(--pad) 110px;display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:56px;align-items:start}
+@media (max-width:980px){.case-body{grid-template-columns:1fr}}
+.case-media{position:sticky;top:96px;aspect-ratio:16/10.5;border-radius:16px;overflow:hidden;border:1px solid var(--line2);background:#111}
+@media (max-width:980px){.case-media{position:relative;top:auto}}
+.case-media .bar{height:32px;padding:0 14px;gap:7px}
+.case-media .view{position:absolute;inset:32px 0 0;overflow-y:auto;scrollbar-width:thin}
+.case-media .view img{width:100%;height:auto}
+.about{font-size:19px;line-height:1.62;color:var(--muted)}
+.stats{margin-top:34px;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line2)}
+.stat{padding:18px 0;border-bottom:1px solid var(--line)}
+.stat:nth-child(odd){padding-right:16px}
+.stat b{display:block;font-size:24px;font-weight:600;letter-spacing:-.03em}
+.stat span{color:var(--muted2);font-size:14.5px}
+.case-side h5{margin:36px 0 4px;color:var(--muted2);font-weight:400}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:28px}
+.tags span{font-family:var(--mono);font-size:11px;color:var(--muted);border:1px solid var(--line2);padding:6px 10px;border-radius:7px}
+.case-side .links{margin-top:34px}
+.want{margin-top:34px;width:100%;justify-content:center}
+
+/* cursor */
+.cursor{position:fixed;left:0;top:0;z-index:90;pointer-events:none;width:92px;height:92px;margin:-46px 0 0 -46px;border-radius:50%;background:var(--text);color:var(--on);display:grid;place-items:center;font-size:13px;font-weight:600;transform:scale(0);transition:transform .5s var(--expo)}
+.cursor.on{transform:scale(1)}
+@media (hover:none){.cursor{display:none}}
+
+.toast{position:fixed;left:50%;bottom:28px;z-index:120;transform:translate(-50%,30px);opacity:0;padding:12px 18px;border-radius:99px;background:var(--text);color:var(--on);font-weight:600;font-size:14px;transition:all .6s var(--expo);pointer-events:none}
+.toast.on{transform:translate(-50%,0);opacity:1}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+  .line>.in,.rv{transform:none!important;opacity:1!important}
+  .media{clip-path:none!important;transform:none!important}
+}
+</style>
+<noscript><style>.hero-wm>span{visibility:visible!important}.rv{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<a class="sr" href="#work">Skip to work</a>
+
+<header class="hdr" id="hdr">
+  <a class="logo" href="#top" aria-label="nerom, home">nerom<i>.</i></a>
+  <nav class="nav" aria-label="Sections"><a href="#work">Work</a><a href="#clients">Clients</a><a href="#archive">Archive</a><a href="#process">Process</a></nav>
+  <div class="hright">
+    <div class="pals" role="radiogroup" aria-label="Colour palette">
+      <button class="pal" type="button" role="radio" data-p="mono" title="Mono" aria-label="Mono palette" style="--a:#f2f1ee;--b:#1b1b1d"></button>
+      <button class="pal" type="button" role="radio" data-p="cobalt" title="Cobalt" aria-label="Cobalt palette" style="--a:#5b86ff;--b:#0b1330"></button>
+      <button class="pal" type="button" role="radio" data-p="acid" title="Acid" aria-label="Acid palette" style="--a:#c6ff3d;--b:#151714"></button>
+      <button class="pal" type="button" role="radio" data-p="light" title="Light" aria-label="Light palette" style="--a:#ff4d1a;--b:#f3f1ec"></button>
+    </div>
+    <a class="avail" href="#contact"><i></i><span class="al">Open for projects</span><span class="as">Open</span></a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <div class="glow g1"></div><div class="glow g2"></div>
+    <div class="tele" aria-label="Status"><span>WAT <b id="clock">--:--:--</b></span><span><b data-n="shipped">38</b> SHIPPED</span><span class="t3"><b>07</b> WINNERS</span><span class="t4"><b>14</b> CHAINS</span></div>
+    <div class="stage" id="stage" aria-label="Featured projects"></div>
+    <div class="hero-copy" id="heroCopy">
+      <p class="eyebrow mono rv">AI · Web · Payments · On-chain</p>
+      <h1 class="wmk hero-wm assembling" id="heroWm" aria-label="nerom"><span>n</span><span>e</span><span>r</span><span>o</span><span>m</span><span class="dot">.</span></h1>
+      <p class="lead rv" style="transition-delay:.15s">Product engineer. I design and build <b>AI agents, web apps, payment flows and on-chain systems</b>.<span class="stat"><span data-n="shipped">38</span> shipped · 7 award winners</span></p>
+      <div class="ctas rv" style="transition-delay:.35s"><a class="cta mag" href="#contact">Start a project <span class="arr">→</span></a><a class="link" href="#work">See the work ↓</a></div>
+    </div>
+    <div class="hero-foot rv" style="transition-delay:.5s">
+      <div class="np" id="np"><span class="n mono swap" id="npN">N°01 / 38</span><span class="t swap" id="npT">Syncly</span><span class="d swap" id="npD"></span></div>
+      <span class="scrollcue mono"><i></i>Scroll</span>
+    </div>
+  </section>
+
+  <section class="sec" id="work">
+    <div class="sec-head"><h2 class="h2 io"><span class="line"><span class="in">Selected <em>work</em></span></span></h2><span class="count mono rv">04 featured · <span data-n="shipped">38</span> shipped</span></div>
+    <div class="feats" id="feats"></div>
+  </section>
+
+  <section class="sec" id="clients">
+    <div class="sec-head"><h2 class="h2 io"><span class="line"><span class="in">Built for <em>clients</em></span></span></h2><p class="sec-sub rv">Real organisations, real users, real payments moving through them.</p></div>
+    <div class="cgrid" id="cgrid"></div>
+  </section>
+
+  <section class="sec" id="archive">
+    <div class="sec-head"><h2 class="h2 io"><span class="line"><span class="in">The <em>archive</em></span></span></h2><div class="tabs rv" id="tabs" role="toolbar" aria-label="Filter projects"></div></div>
+    <div class="rows" id="rows"></div>
+  </section>
+
+  <section class="sec" id="process">
+    <div class="sec-head"><h2 class="h2 io"><span class="line"><span class="in">How a build <em>runs</em></span></span></h2></div>
+    <ol class="steps io">
+      <li class="step"><span class="sn">01</span><h4>Brief</h4><p>You tell me the idea and who it's for. The form below takes about a minute.</p></li>
+      <li class="step"><span class="sn">02</span><h4>Plan</h4><p>I come back with a plan, a timeline and a price — before any code gets written.</p></li>
+      <li class="step"><span class="sn">03</span><h4>Build in the open</h4><p>You get a live link early and watch it come together. No big reveal at the end.</p></li>
+      <li class="step"><span class="sn">04</span><h4>Launch</h4><p>It goes live for real users — logins, payments, the boring parts that make it work.</p></li>
+    </ol>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="cwrap">
+      <div>
+        <h2 class="giant io"><span class="line"><span class="in">Got a project?</span></span><span class="line"><span class="in"><em>Deal me in.</em></span></span></h2>
+        <p class="sub rv">Tell me what you're building. Pick what you need and it writes the brief for you — or just email me. I reply fast.</p>
+        <div class="direct rv">
+          <a class="mail link" href="mailto:neromtoobad@gmail.com?subject=Project%20for%20nerom">neromtoobad@gmail.com ↗</a>
+          <div class="row2"><button id="copyMail" type="button">Copy email</button><a href="https://x.com/neromtoobad" target="_blank" rel="noopener">X ↗</a><a href="https://github.com/neromtoobad" target="_blank" rel="noopener">GitHub ↗</a></div>
+        </div>
+      </div>
+      <form class="starter rv" id="starter" onsubmit="return false" aria-label="Project starter">
+        <div class="q"><span class="ql mono">What do you need?</span><div class="opts" id="optNeeds" role="group" aria-label="What do you need?"></div></div>
+        <div class="q"><span class="ql mono">Budget</span><div class="opts" id="optBudget" role="radiogroup" aria-label="Budget"></div></div>
+        <div class="q"><span class="ql mono">Timeline</span><div class="opts" id="optTime" role="radiogroup" aria-label="Timeline"></div></div>
+        <div class="q"><span class="ql mono">The idea</span><input class="field" id="dName" autocomplete="name" placeholder="Your name" maxlength="60"><textarea class="field" id="dIdea" maxlength="400" placeholder="What are you building? A line or two is plenty."></textarea></div>
+        <div class="send"><a class="cta mag" id="dDeal" href="mailto:neromtoobad@gmail.com">Send the brief <span class="arr">→</span></a><button class="link" id="dCopy" type="button">Copy brief</button></div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="fbig wmk" id="footWm" aria-hidden="true"><span>n</span><span>e</span><span>r</span><span>o</span><span>m</span><span class="dot">.</span></div>
+  <div class="frow mono"><span>© 2026 nerom · nerom.site</span><span>WAT <b id="clock2">--:--</b></span><a href="#top">Back to top ↑</a></div>
+</footer>
+
+<div class="case" id="case" hidden role="dialog" aria-modal="true" aria-label="Project">
+  <div class="case-bg" data-close></div>
+  <div class="sheet" id="sheet" data-lenis-prevent>
+    <div class="case-top">
+      <button class="cbtn" data-close type="button">✕ <span class="lbl">Close</span></button>
+      <span class="mono" id="cCount" style="color:var(--dim)">01 / 38</span>
+      <div class="nav2"><button class="cbtn" id="cPrev" type="button">← <span class="lbl">Prev</span></button><button class="cbtn" id="cNext" type="button"><span class="lbl">Next</span> →</button></div>
+    </div>
+    <div class="case-head"><div><span class="idx mono" id="cIdx"></span><h2 id="cTitle"></h2></div><div class="cmeta" id="cMeta"></div></div>
+    <div class="case-body">
+      <div class="case-media"><div class="bar"><i></i><i></i><i></i><span id="cUrl"></span></div><div class="view" id="cView" data-lenis-prevent><img id="cImg" alt=""></div></div>
+      <aside class="case-side">
+        <p class="about" id="cAbout"></p>
+        <div class="stats" id="cStats"></div>
+        <div id="cBuiltWrap"><h5 class="mono">What I built</h5><ul class="built" id="cBuilt"></ul></div>
+        <div class="tags" id="cTags"></div>
+        <div class="links" id="cLinks"></div>
+        <button class="cta want" id="cWant" type="button">I want one like this <span class="arr">→</span></button>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<div class="peek" id="peek" aria-hidden="true"><img alt=""></div>
+<div class="cursor" id="cursor" aria-hidden="true">View</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const GH='https://github.com/neromtoobad/';
+const CARDS = [
+ { id:'cysic', name:'Cysic AI', type:'agent', status:'won', event:'Cysic × MiniMax', month:'2025-11',
+   flavor:'Tap once and just talk. Interrupt it — it stops.',
+   about:'A real-time voice agent for Cysic. Your mic streams live to a native-audio model that answers out loud, stops the moment you cut in, and transcribes both sides. It is grounded in a hand-built knowledge core about Cysic’s ZK hardware, and it has two voices: Cysic Bro, the hyped guide, and Cysic Freak, flagged AGENT UNHINGED.',
+   moves:[['Barge-in voice','native audio'],['Two personalities','Bro · Freak']], tags:['voice','realtime','ZK hardware'],
+   repo:GH+'cysic-ai-assister', poster:'wave' },
+ { id:'delphi', name:'Delphi Duel', type:'agent', status:'shp', event:'Gensyn AXL track', month:'2026-04',
+   flavor:'The second opinion engine for prediction markets.',
+   about:'Two AI agents debate any Delphi market peer-to-peer over Gensyn AXL — binary or multi-outcome — and a judge returns bull, bear or inconclusive. A bets page joins every wager to its verdict so the operator’s track record is right there.',
+   moves:[['Agents argue P2P','Gensyn AXL'],['Verdict per market','bull · bear']], tags:['multi-agent','P2P','prediction markets'],
+   repo:GH+'delphi-duel', poster:'delphi' },
+ { id:'specter', name:'Specter', type:'privacy', status:'shp', event:'Arcium RTG · Blind Auctions', month:'2026-05',
+   flavor:'Sealed bids that nobody — not even the chain — can read.',
+   about:'Privacy-first blind auctions on Solana. Bids go in encrypted, an Arcis circuit compares them inside Arcium’s MPC without ever decrypting, and only the winner index and winning amount come back out to the Anchor program.',
+   moves:[['Compared encrypted','Arcium MPC'],['Winner-only reveal','Solana']], tags:['MPC','Anchor','Rust'],
+   repo:GH+'specter', poster:'specter' },
+ { id:'forum', name:'FORUM', type:'market', status:'shp', event:'Built on Arc', month:'2026-05',
+   flavor:'The agent prices. You take the other side.',
+   about:'An Arc-native prediction market with an AI bookmaker. The agent prices binary events, users bet USDC, and the contracts settle on Arc in under a second. A treasury contract tracks the house P&L in USDC.',
+   moves:[['AI bookmaker','prices events'],['Settles on Arc','< 1 s']], tags:['USDC','Solidity','AI pricing'],
+   live:'https://forum-xi-eight.vercel.app', repo:GH+'forum', shot:true },
+ { id:'kejiai', name:'KejiAI', type:'edu', status:'shp', event:'Product · researchers', month:'2026-05',
+   flavor:'Your data. Your chapters. Under sixty seconds.',
+   about:'A chapter writer for Nigerian university researchers. Upload research data, get an APA-formatted academic chapter with real statistics, real charts and DOCX/PDF export — stateless, in under a minute.',
+   moves:[['CSV in, chapter out','< 60 s'],['Real stats & charts','APA · DOCX']], tags:['education','statistics','export'],
+   live:'https://kejiai-chapter-writer.vercel.app', repo:GH+'kejiai-chapter-writer', shot:true },
+ { id:'watchdog', name:'WATCHDOG', type:'tool', status:'shp', event:'Bitget AI Base Camp S1', month:'2026-06',
+   flavor:'A credit score for every trading agent.',
+   about:'The behavioural layer every autonomous trading agent should run behind. One call before each order returns approve or block, a trust score, forecasts and an action — plus AI incident diagnosis and a public fleet leaderboard.',
+   moves:[['Test suite','192 / 192'],['Bad bots caught','10/10 · 0% FP']], tags:['trading infra','risk','SDK'],
+   live:'https://bitget-indol.vercel.app', repo:GH+'watchdog-agent', shot:true },
+ { id:'crossfire', name:'CROSSFIRE', type:'agent', status:'won', event:'MetaMask × 1Shot × Venice', month:'2026-06',
+   flavor:'Five AI agents call the World Cup. Whose calls do you trust?',
+   about:'Five adversarial AI forecasters stake real USDC from an ERC-7710 delegation the chain enforces — an agent that bluffs can’t afford to look confident. Users follow or fade each one through revocable ERC-7715 mandates.',
+   moves:[['Agents stake real USDC','ERC-7710'],['Follow or fade','ERC-7715']], tags:['smart accounts','delegation','forecasting'],
+   live:'https://crossfire-nu.vercel.app', repo:GH+'crossfire', shot:true },
+ { id:'skins', name:'SKINS', type:'tool', status:'shp', event:'MCP server', month:'2026-06',
+   flavor:'Turns any coding agent into a top-1% web designer.',
+   about:'An MCP server for Claude, Codex and friends. Describe a vibe — or point it at a site you love — and it hands the model a complete build brief: type scale, motion, palette, layout and copy voice, so the output is an award-grade page instead of generic AI slop.',
+   moves:[['Vibe → build brief','MCP'],['Channel any URL','design DNA']], tags:['MCP','design systems','agents'],
+   repo:GH+'skins', poster:'skins' },
+ { id:'commit', name:'Commit-Reveal', type:'tool', status:'won', event:'Pharos Agent Skills · Phase 1', month:'2026-06',
+   flavor:'Blind votes for machines that can read each other’s mail.',
+   about:'Sealed bids, blind votes and private predictions for on-chain agents. The commit hash binds msg.sender, so no agent can copy another’s commitment and replay it as its own. Deployed and live on Pharos Atlantic.',
+   moves:[['Commit binds sender','no copying'],['Live contract','Pharos Atlantic']], tags:['Solidity','agent skill','coordination'],
+   repo:GH+'commit-reveal-coordination', extra:['Contract','https://atlantic.pharosscan.xyz/address/0x0d609dA43455afFCaB082393233AC10f61e875DF'], poster:'commit' },
+ { id:'paypercall', name:'Pay-Per-Call', type:'money', status:'won', event:'Pharos Agent Skills · Phase 2', month:'2026-06',
+   flavor:'Pay for a thousand calls. Settle once.',
+   about:'x402-style payment channels for Pharos AI agents: escrow once, sign an off-chain voucher per call, redeem the latest. N metered micropayments settle in a single transaction. Live on Pharos Atlantic.',
+   moves:[['Vouchers per call','off-chain'],['N calls settle','1 tx']], tags:['x402','payment channels','Solidity'],
+   repo:GH+'pay-per-call-settlement', extra:['Contract','https://atlantic.pharosscan.xyz/address/0xAcAB26A6130fC6cB32CAB58Ec0F011E7346a2E05'], poster:'ppc' },
+ { id:'longshot', name:'LONGSHOT', type:'agent', status:'shp', event:'Lepton Agents Hackathon', month:'2026-06',
+   flavor:'Agents that pay for their evidence — and get ranked for it.',
+   about:'An autonomous prediction-agent league on Arc. Agents buy sub-cent evidence over x402 through Circle Gateway, predict real World Cup scores, and rank by accuracy and ROI. Data providers post bonds that get slashed to the prize pool when they’re wrong.',
+   moves:[['Buys evidence','x402 · sub-cent'],['Ranked by','accuracy + ROI']], tags:['Circle Gateway','USDC','Arc'],
+   live:'https://longshot-tan.vercel.app', repo:GH+'longshot', shot:true },
+ { id:'optic', name:'Optic AI', type:'agent', status:'won', event:'OKX.AI Trading Hackathon', month:'2026-07',
+   flavor:'The edge was never inside one market. It’s in the gap.',
+   about:'One agent that reads memecoins, prediction markets, tokenized stocks and social attention as a single economy, and reports where they stop agreeing — that gap is the signal. No login, no API key: the x402 payment is the auth. It never issues a trade instruction; directive language is lint-gated in code. It has since been ported to Binance Agent OS, and to Bitget as a research desk.',
+   moves:[['x402 is the login','no API key'],['OKX.AI agent #4380','5.0 ★']], tags:['x402','market data','agent'],
+   live:'https://optic-ai.xyz', repo:GH+'optic', extra:['OKX.AI listing','https://www.okx.ai/agents/4380'], shot:true },
+ { id:'reel', name:'Agent Reel', type:'agent', status:'shp', event:'OKX.AI Genesis Hackathon', month:'2026-07',
+   flavor:'A creative studio that takes payment per call.',
+   about:'Promo videos, hero images, brand kits, image edits and mint-ready packaging for the agent economy — five services paid per call over x402 on X Layer. Listed on OKX.AI as agent #6731.',
+   moves:[['Five paid services','x402'],['OKX.AI agent','#6731']], tags:['X Layer','video','x402'],
+   repo:GH+'agent-reel', extra:['OKX.AI listing','https://www.okx.ai/agents/6731'], poster:'reel' },
+ { id:'doom', name:'DOOM', type:'privacy', status:'shp', event:'Starknet STRK20 Private Sprint', month:'2026-08',
+   flavor:'Visible odds. Invisible bettors.',
+   about:'A private prediction market on Starknet. Bet sizes and prices stay public so the market stays accurate, while who is betting stays hidden behind the STRK20 privacy pool — transactions are relayed, so the sender on-chain is never the bettor. Live on mainnet.',
+   moves:[['Bettors hidden','STRK20 pool'],['Running on','mainnet']], tags:['Cairo','Starknet','privacy pools'],
+   live:'https://neromtoobad.github.io/doom/', repo:GH+'doom', shot:true },
+ { id:'keji', name:'Kejicare', type:'edu', status:'shp', client:true, event:'Client · Kejicare Consult Ltd.', month:'2026-08',
+   flavor:'HND today. BSc tomorrow. A better future.',
+   about:'The admissions site for Kejicare Consult, an authorised partner of Nexus International University. Students browse every programme and fee, apply online, pay the application and screening fee, upload their documents and track their status — while the team works each application from an admin dashboard.',
+   moves:[['Apply → pay → upload','online'],['Admin dashboard','every applicant']], tags:['Supabase','payments','admissions'],
+   live:'https://kejicareconsult.xyz', shot:true },
+ { id:'ropes', name:'ROPES', type:'play', status:'won', event:'Somnia × dreamDEX', month:'2026-08',
+   flavor:'A battle royale on Bitcoin. Every round, half the table falls.',
+   about:'Every round a live dreamDEX BTC event contract decides who lives: pick UP or DOWN, survivors’ stacks multiply at the odds they took and roll into the next round. Eliminations land on-chain through Somnia’s reactivity in the same block as settlement — no keeper, no cron. The chain runs the tournament.',
+   moves:[['Chain runs the game','0 keepers'],['Round length','1 minute']], tags:['Somnia','event contracts','game'],
+   live:'https://playropes.vercel.app', repo:GH+'ropes', shot:true },
+ { id:'tideland', name:'Tideland', type:'play', status:'won', event:'Arkiv Ideathon · Great Ideas', month:'2026-08',
+   flavor:'A world the tide is always taking back.',
+   about:'An open, serverless game world. Every wall and monument is an Arkiv entity kept alive by lifetime extension — pine fades in days, stone in a season, monuments stand for years — so anything players stop maintaining sinks off the query surface. Decay is protocol physics, not game code.',
+   moves:[['Materials are lifetimes','pine → stone'],['Game master','none']], tags:['Arkiv','serverless','world-building'],
+   live:'https://tideland-arkiv.vercel.app', shot:true },
+ { id:'elap', name:'ELAP', type:'edu', status:'shp', client:true, event:'Client · M.Tech research study', month:'2026-09',
+   flavor:'A biology e-note that keeps teaching when the signal drops.',
+   about:'E-Note Learning Application Package: an installable e-note for SS II Biology — Nervous Coordination and Control — built as the teaching instrument for an M.Tech study. Narrated video lessons, redrawn diagrams, quizzes, an AI tutor, student logins with self-service reset, and a researcher dashboard for the study data. The app shell is cached, so lessons open offline.',
+   moves:[['Narrated lessons','9 videos'],['Quizzes + AI tutor','per lesson']], tags:['PWA','Python','e-learning'],
+   live:'https://elap.nerom.site', shot:true },
+ { id:'gameweek', name:'Gameweek', type:'play', status:'shp', event:'Coinbase stocks on Base', month:'2026-09',
+   flavor:'Fantasy football, except the players are real stocks.',
+   about:'Pick five real Coinbase tokenized stocks on Base, one wears the armband, and a contract reads Chainlink and pays the pot. The pool price tracks Chainlink to within a fraction of a percent and the podium is ranked on-chain.',
+   moves:[['Captain doubles','armband'],['Pays the pot','Chainlink']], tags:['Base','Chainlink','fantasy'],
+   live:'https://gameweek-bay.vercel.app', repo:GH+'gameweek', shot:true },
+ { id:'roost', name:'Roost', type:'market', status:'shp', event:'BNB Hack · Tokenized Stocks', month:'2026-09',
+   flavor:'Tokenized stocks, raised like pets.',
+   about:'Adopt a Fledgling — a creature that is also a trading rule — feed it USDT, and it buys real tokenized equities on BNB Smart Chain from your own wallet. Its personality is its strategy, and an hourly worker keeps it trading while the app is closed, writing what it did in its diary.',
+   moves:[['Personality = strategy','BNB Chain'],['Stocks & ETFs','~450']], tags:['BNB Chain','tokenized stocks','collectible'],
+   live:'https://roost.nerom.site', repo:GH+'roost', shot:true },
+ { id:'kibble', name:'Kibble', type:'market', status:'shp', event:'Bitget AI Base Camp S2', month:'2026-09',
+   flavor:'Wall Street sleeps. I don\u2019t. — Nova, 2am',
+   about:'A collectible creature that is also an autonomous agent on Bitget\u2019s stock perpetuals. It pays its own funding every eight hours and it can be liquidated. Every buy is a pinky promise — a thesis, a target, a stop and a deadline — and every promise is graded on a public proof page. The creature system began as Stocklings, built for Solana\u2019s tokenized-stock hackathon.',
+   moves:[['Funding = hunger','every 8h'],['Every buy graded','/proof']], tags:['Bitget','perpetuals','AI pet'],
+   live:'https://kibble.nerom.site', repo:GH+'kibble', shot:true },
+ { id:'stockback', name:'Stockback', type:'money', status:'shp', event:'OpenServ SERV Hackathon', month:'2026-09',
+   flavor:'Every receipt buys you a piece of the company.',
+   about:'Scan a receipt and an agent reasons over it with SERV, then buys stock tokens of the brands you spent with on Robinhood Chain — from its own Coinbase AgentKit wallet. Real on-chain baskets went out during the build.',
+   moves:[['Receipt → stock','SERV reasoning'],['Agent wallet','AgentKit']], tags:['Robinhood Chain','stock tokens','agent wallet'],
+   live:'https://stockback.nerom.site', repo:GH+'stockback', shot:true },
+ { id:'syncly', name:'Syncly', type:'money', status:'shp', event:'Tameion Agents Hackathon', month:'2026-09',
+   flavor:'AI agents do the work. An AI CFO runs the money.',
+   about:'A real business on Arc. Customers pay for jobs into USDC escrow, a team of agents does the work and pays for its own tools by x402, and an AI CFO funds each agent and signs every decision — with private books only the owner can open.',
+   moves:[['Agents pay their tools','x402'],['CFO decisions','signed']], tags:['Arc','USDC escrow','Circle'],
+   live:'https://hiresyncly.site', repo:GH+'syncly', shot:true },
+ { id:'tote', name:'Tote', type:'agent', status:'shp', event:'AssemblyAI Voice Agent Hackathon', month:'2026-09',
+   flavor:'The voice in the picker\u2019s headset.',
+   about:'A hands-free voice picking copilot for warehouses, plus a second voice agent for the shift lead, built on the AssemblyAI Voice Agent API. It rejects wrong check digits before anything leaves the shelf, re-routes rush orders, closes an aisle on a spill and relays the lead\u2019s messages in the picker\u2019s language.',
+   moves:[['Wrong picks caught','check digits'],['Two voice agents','picker + lead']], tags:['voice AI','logistics','realtime'],
+   live:'https://tote.nerom.site', repo:GH+'tote', shot:true },
+ { id:'glasstown', name:'Glasstown', type:'privacy', status:'shp', event:'ZECATHON', month:'2026-10',
+   flavor:'Learn to use Zcash privately in about ten minutes.',
+   about:'A short, beginner-friendly learning game that takes someone who knows nothing about Zcash to their first private (shielded) payment. Seven levels — one of them Dark Pool, an arcade game — each end with a quiz and unlock a piece of your 26×26 pixel identity.',
+   moves:[['Zero to private','~10 min'],['Dark Pool arcade','7 levels']], tags:['Zcash','education','game'],
+   live:'https://neromtoobad.github.io/glasstown/', repo:GH+'glasstown', shot:true },
+ { id:'aliquot', name:'Aliquot', type:'agent', status:'shp', event:'DEV × Sanity Challenge', month:'2026-10',
+   flavor:'The kit says 68 °C. The textbook says 72. Which one is your bench?',
+   about:'A bench-side lab protocol agent on Sanity Context. It answers from a knowledge base with sourced claims, computes PCR programs instead of guessing them, and writes every answer to a GROQ ledger. On its own eval it scores 12/12 against a keyword baseline’s 7/12.',
+   moves:[['Eval score','12 / 12'],['Every claim','sourced']], tags:['Sanity','lab science','agent'],
+   live:'https://aliquot.nerom.site', repo:GH+'aliquot', extra:['DEV post','https://dev.to/neromtoobad/aliquot-the-kit-says-68-degc-the-textbook-says-72-an-agent-that-knows-which-one-is-your-bench-37oi'], shot:true },
+ {"id": "oshi", "name": "Oshi Analysts", "type": "agent", "event": "RYO-CHAN Hackathon · Agentic SocialFi", "month": "2026-09", "flavor": "Six AI idols make the call. The one who disagrees argues back.", "about": "Six analyst idols, each with a fixed rulebook, read the same market snapshot every two hours and either open a sized practice position or pass. The rulebook that reads the token hardest the other way argues against each call, line by line, from stored RYO research and Binance, OKX and Hyperliquid data; no language model writes the lines, and any debate can be replayed from its snapshots. Binance hourly prices settle each call, and an election ranks the idols by calibration, never by profit.", "moves": [["Calls every", "2 h"], ["MCP skill", "what_changed"]], "tags": ["multi-agent", "MCP", "calibration"], "status": "shp", "live": "https://oshi-analysts.up.railway.app", "shot": true},
+ {"id": "receipts", "name": "RECEIPTS", "type": "agent", "event": "Sibyl Labs Hackathon", "month": "2026-08", "flavor": "AI pundits that learn which informants to trust, and pay for it.", "about": "Six agents with the same model, prompt and budget forecast real matches and markets, buying every piece of evidence from informants behind HTTP 402 over x402 on Base. Each forecast runs in a fresh process that dies afterwards, so the only thing that survives is a per-domain trust map in Sibyl Memory that decides what to buy next. A 1,000-forecast deletion test found the memory arm spends ten times less for the same Brier score, which the README reports as a tie on quality.", "moves": [["Memory cuts evidence spend", "10×"], ["Offline tests", "83"]], "tags": ["agent memory", "x402", "Base"], "status": "shp", "live": "https://neromtoobad.github.io/receipts/", "repo": "https://github.com/neromtoobad/receipts", "extra": ["x402 settlement on Base", "https://sepolia.basescan.org/tx/0xb0cc50dbf1530884b0789f15b0498632bb50d6a74b74336b58659fefd864eebc"], "shot": true},
+ {"id": "homeward", "name": "Homeward", "type": "money", "event": "Monad Metropolis · Track 02", "month": "2026-09", "flavor": "Send dollars home in one tap. No seed phrase, no gas.", "about": "Cross-border AUSD remittances on Monad where sender and recipient need only a phone. One passkey ceremony (via Mera's PRF) derives both a wallet key and a separate encrypted-vault key, and a new recipient claims funds from a WhatsApp link with a face or fingerprint tap. Payments are EIP-3009 signatures relayed through an escrow contract, and a Chainlink CRE workflow runs prepaid standing orders and writes the naira rate it used on-chain.", "moves": [["Gasless sends", "EIP-3009"], ["Standing orders", "Chainlink CRE"]], "tags": ["passkeys", "remittance", "Monad"], "status": "shp", "repo": "https://github.com/neromtoobad/homeward", "shot": true},
+ {"id": "sooth", "name": "SOOTH", "type": "market", "event": "Casper Agentic Buildathon 2026", "month": "2026-07", "flavor": "Truth, priced live. A market-priced oracle for agents.", "about": "Prediction markets on Casper testnet where five trader agents (two heuristic, three LLM personas) pay x402 for price data, trade their beliefs on-chain, and the resulting probability is sold back to other agents as an x402-gated oracle. Deterministic markets resolve on two agreeing price sources; claims with no feed go to an LLM jury and then a staked commit-reveal contract that slashes the wrong side. Contracts are Rust on Odra, and the protocol is also exposed as an MCP server.", "moves": [["Contract tests", "16"], ["Probe market", "32 trades, resolved"]], "tags": ["Casper", "x402", "prediction markets"], "status": "shp", "repo": "https://github.com/neromtoobad/sooth", "extra": ["MarketFactory on testnet.cspr.live", "https://testnet.cspr.live/contract-package/b1c836f5dba09faa7f50e31f324ff22ad3186b77b2f7e24abd2be8b7c28c0a40"], "shot": true},
+ {"id": "bluff", "name": "BLUFF", "type": "play", "event": "Built on Arc × Circle", "month": "2026-05", "flavor": "Two AI agents make a claim. One is lying. Spot the bluff.", "about": "A betting game on Arc Testnet: two AI agents stream opposing takes on a claim drawn from a pool of 341 pre-verified crypto facts, one defending the truth and one fabricating a specific-sounding counter. Players bet testnet USDC on which agent is bluffing, the verdict and source appear the moment the bet lands, and winners are paid from an escrow wallet, with streaks compounding to a 5× multiplier. Players sign in with a Circle email smart account or a browser wallet.", "moves": [["Verified claims", "341"], ["Streak jackpot", "5×"]], "tags": ["USDC", "Circle wallets", "AI agents"], "status": "shp", "live": "https://bluff-alpha.vercel.app", "repo": "https://github.com/neromtoobad/bluff-", "shot": true},
+ {"id": "results", "name": "Student Results Console", "type": "edu", "event": "Product · Nigerian universities", "month": "2026-08", "flavor": "Drop in a results sheet. Get KPIs, charts and slicers in-browser.", "about": "A single-file dashboard for university results on the Nigerian 5.00 CGPA scale: upload an Excel or CSV sheet and get KPIs, degree-class and CGPA charts, slicers and a session timeline that all filter together. The .xlsx reader is hand-written on the browser's native DecompressionStream and DOMParser, the charts are hand-built SVG, and nothing is uploaded to a server.", "moves": [["Dependencies", "zero"], ["KPIs · visuals", "5 · 5"]], "tags": ["dashboard", "SVG charts", "education"], "status": "shp", "live": "https://student-results-dashboard-beta.vercel.app", "repo": "https://github.com/neromtoobad/student-results-dashboard", "shot": true},
+ {"id": "semis-orb", "name": "Semis Open-Range", "type": "market", "event": "Bitget AI Playbook Trade-thon · GetAgent Studio", "month": "2026-08", "flavor": "Trade the cash-open break of the overnight band, flat by the close.", "about": "A GetAgent Studio trading Playbook for four tokenized semiconductor perpetuals on Bitget (NVDA, MU, TSM, SOXL). It measures each name's overnight range while US cash markets are shut, trades the break at the cash open only for the name with the strongest pre-open relative volume, and flattens before the close. The repo publishes the research behind it, including the ideas that failed (an overnight-drift fee trap, metals strategies that lost), and notes that it underperformed buy-and-hold on every member over the 166-day window.", "moves": [["Backtest window", "166 days"], ["Research published", "failures too"]], "tags": ["NautilusTrader", "backtesting", "tokenized stocks"], "status": "shp", "repo": "https://github.com/neromtoobad/getagent-playbooks", "shot": true},
+ {"id": "wasmcheck", "name": "telegraph-wasm-check", "type": "tool", "event": "Telegraph hackathon · Track 2", "month": "2026-08", "flavor": "Validate a scoring module before you spend gas registering it.", "about": "A Go CLI that loads a Telegraph WASM scoring module through wazero, the runtime the node uses, and runs the published Stage 1 gates, determinism checks across repeat calls and fresh instances, and advisory Stage 2 probes. Developers write ordinal ordering assertions for their intent, compare a candidate against a baseline module case by case, and get seeded fuzzing, worst-case timing and memory-growth checks, with JSON output for CI.", "moves": [["Seeded fuzz", "500 triples"], ["Runtime", "wazero"]], "tags": ["Go", "WebAssembly", "dev tooling"], "status": "shp", "repo": "https://github.com/neromtoobad/telegraph-wasm-check", "shot": true},
+ {"id": "docpilot", "name": "docpilot-mcp", "type": "tool", "event": "Personal tool · MCP server", "month": "2026-06", "flavor": "Version-accurate docs for coding agents, so signatures aren't stale.", "about": "A TypeScript MCP server with four tools that let coding agents query live, version-pinned documentation, changelogs, real code examples and method signatures for any npm or PyPI package. Signatures are parsed from the package's own .d.ts or .pyi files, docs are chunked into a local hnswlib vector index, and a three-tier cache serves repeat questions without network access. It runs over stdio or HTTP/SSE.", "moves": [["MCP tools", "4"], ["Offline tests", "90"]], "tags": ["MCP", "TypeScript", "RAG"], "status": "shp", "repo": "https://github.com/neromtoobad/docpilot-mcp", "shot": true},
+ {"id": "reverse-captcha", "name": "reverse-captcha", "type": "tool", "event": "Personal tool · technocore.chat", "month": "2026-08", "flavor": "A CAPTCHA proves you are human. This proves the opposite.", "about": "A proof-of-machine CLI: an agent chains thousands of sequential Ed25519 signatures seeded by a live technocore.chat message and a verifier-issued challenge, so the proof cannot be precomputed, parallelised or replayed at another door. Anyone can verify it offline from the did:key alone, sampling signatures to bound the chance of a forgery. A companion 'door' tool gates a real technocore.chat room so only DIDs admitted with a fresh proof can post.", "moves": [["Sequential signatures", "10,000 in 1.13 s"], ["Attacks rejected", "5 of 5"]], "tags": ["Ed25519", "did:key", "CLI"], "status": "shp", "repo": "https://github.com/neromtoobad/reverse-captcha", "extra": ["60-second demo", "https://github.com/neromtoobad/reverse-captcha/blob/main/assets/demo.mp4"], "shot": true},
+ {"id": "beats", "name": "Suiiiiiii Beats", "type": "market", "event": "Built on Sui × Walrus", "month": "2026-05", "flavor": "Beats stored on Walrus, sold as NFTs on Sui.", "about": "An on-chain beat marketplace: the store owner uploads a beat, the audio goes to Walrus, and a Move contract mints a BeatNFT carrying the Walrus blob id and lists it. Anyone can stream a free preview; paying SUI transfers the NFT, splits a 2.5% platform fee, and unlocks the download for the new owner. Every Sui read and write goes through the Tatum RPC gateway with a retrying client.", "moves": [["Platform fee", "2.5% on-chain"], ["Licence tiers", "3"]], "tags": ["Sui", "Move", "Walrus"], "status": "shp", "repo": "https://github.com/neromtoobad/suiiiiiii-beats", "extra": ["Purchase tx on Suiscan", "https://suiscan.xyz/testnet/tx/F2ryYHtFcF8Yy8QVXCTVdi5vchZRdxzbmaSRMinQhXqN"], "shot": true},
+ {"id": "cue", "name": "Cue", "type": "agent", "event": "Product · meeting & sales copilot", "month": "2026-09", "flavor": "Know what to say on the call — in your own words.", "about": "A live voice copilot for meetings, sales calls and in-person conversations. It transcribes with AssemblyAI streaming — your mic and the call audio on separate streams — and as each question ends it drafts a full answer on screen from a Me card of your real stories and a Style card of your own writing, so it sounds like you. Your profile and history stay in the browser; the server is stateless and never stores audio.", "moves": [["First words on screen", "0.9–1.4 s"], ["Audio stored", "never"]], "tags": ["voice AI", "AssemblyAI", "PWA"], "status": "shp", "shot": true}
+];
+CARDS.forEach((c,i)=>{ c.no=i+1; });
+const BEST=['syncly','ropes','crossfire','optic','oshi','kibble','roost','tideland','receipts','doom','tote','cue','aliquot','homeward','stockback','keji','elap','sooth','longshot','gameweek','watchdog','glasstown','bluff','paypercall','commit','cysic','reel','forum','kejiai','results','semis-orb','delphi','skins','docpilot','wasmcheck','reverse-captcha','specter','beats'];
+CARDS.forEach(c=>{ const r=BEST.indexOf(c.id); c.rank=r<0?99:r; });
+const BYRANK=CARDS.slice().sort((a,b)=>a.rank-b.rank);
+const TYPES={agent:'AI agents',market:'Markets',money:'Money',privacy:'Privacy',tool:'Tools',play:'Play',edu:'Education'};
+const LONG=new Set(['syncly','crossfire','optic','kibble','keji']);
+const img=(id,big)=> LONG.has(id)&&big ? `long/${id}.webp` : (big?`full/${id}.webp`:`shots/${id}.webp`);
+const host=u=>{ try{ return new URL(u).host.replace(/^www\./,''); }catch(e){ return ''; } };
+const FEAT=[
+ { id:'syncly', idx:'AI AGENTS · MONEY', pill:['live','● Live product · Arc'],
+   text:'A business run by AI agents. Customers pay for jobs into USDC escrow, a team of agents does the work and pays for its own tools over x402, and an AI CFO funds each agent and signs every decision.',
+   built:['USDC escrow for every job','Agents paying their own tools via x402','An AI CFO that funds agents and signs decisions','Private books only the owner can open'] },
+ { id:'ropes', idx:'GAME · ON-CHAIN', pill:['win','★ Winner — Somnia × dreamDEX'],
+   text:'A battle royale on Bitcoin. Every round a live event contract decides who lives — survivors’ stacks multiply at the odds they took, and the chain settles the eliminations in the same block.',
+   built:['1-minute BTC rounds on event contracts','Stacks compound at the odds you took','Eliminations settle in the same block','No keeper, no cron — the chain runs it'] },
+ { id:'crossfire', idx:'AI AGENTS · SMART ACCOUNTS', pill:['win','★ Winner — MetaMask × 1Shot × Venice'],
+   text:'Five adversarial AI forecasters stake real USDC from a delegation the chain enforces — so an agent that bluffs can’t afford to look confident. You follow or fade each one with a revocable mandate.',
+   built:['Five adversarial forecasting agents','Stakes enforced by ERC-7710 delegation','Follow or fade via ERC-7715 mandates','Revoke a mandate at any time'] },
+ { id:'optic', idx:'AI AGENT · MARKET DATA', pill:['win','★ Winner — OKX.AI Trading Hackathon'],
+   text:'One agent that reads memecoins, prediction markets, tokenized stocks and social attention as one economy, and reports where they stop agreeing. No login, no API key — the x402 payment is the auth.',
+   built:['Nine paid services, x402 as the login','Listed on OKX.AI — agent #4380, 5.0 ★','Directive language lint-gated in code','Four markets read as one'] },
+];
+const CLIENTS=[
+ { id:'keji', who:'Kejicare Consult Ltd. · Admissions', title:'An admissions desk that takes the application and the fee.', line:'Programmes and fees, a step-by-step application, fee checkout, document upload, a status tracker and an admin dashboard.' },
+ { id:'elap', who:'M.Tech research study · E-learning', title:'A biology e-note that keeps teaching when the signal drops.', line:'An installable PWA with narrated lessons, redrawn diagrams, quizzes, an AI tutor and a researcher dashboard.' }
+];
+const BUILT={ keji:['Programme & fee catalogue','Step-by-step application form','Application & screening fee checkout','Document upload once the fee clears','Status tracker for applicants','Admin dashboard for the team'],
+  elap:['Installable PWA, lessons cached offline','9 narrated video lessons','8 diagrams redrawn to spec','Quizzes and an AI tutor','Student logins with self-service reset','Researcher dashboard for the study'] };
+FEAT.forEach(f=>BUILT[f.id]=f.built);
+
+const $=(s,el=document)=>el.querySelector(s), $$=(s,el=document)=>[...el.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+const pad2=n=>String(n).padStart(2,'0');
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmtMonth=m=>{ const [y,mo]=m.split('-'); return `${MONTHS[+mo-1]} ${y}`; };
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const store={ get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}} };
+const statusOf=c=> c.status==='won' ? ['win','★ Winner'] : (c.live ? ['live','● Live'] : ['shp','Shipped']);
+$$('[data-n="shipped"]').forEach(e=>e.textContent=CARDS.length);
+let toastT; function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove('on'),2000); }
+
+// ---------- palettes ----------
+const PAL_BG={mono:'#09090a',cobalt:'#070b16',acid:'#0b0c0b',light:'#f3f1ec'};
+function paintPal(){ const cur=document.documentElement.dataset.pal||'mono'; $$('.pal').forEach(b=>b.setAttribute('aria-checked',b.dataset.p===cur)); $('meta[name="theme-color"]').content=PAL_BG[cur]; }
+function setPal(p,ev){
+  if(document.documentElement.dataset.pal===p) return;
+  const apply=()=>{ document.documentElement.dataset.pal=p; store.set('nerom:pal',p); paintPal(); };
+  if(reduce || !document.startViewTransition){ apply(); return; }
+  const x=ev?.clientX ?? innerWidth-90, y=ev?.clientY ?? 40, r=Math.hypot(Math.max(x,innerWidth-x),Math.max(y,innerHeight-y));
+  const t=document.startViewTransition(apply);
+  t.ready.then(()=>document.documentElement.animate({clipPath:[`circle(0px at ${x}px ${y}px)`,`circle(${r}px at ${x}px ${y}px)`]},{duration:750,easing:'cubic-bezier(.65,0,.35,1)',pseudoElement:'::view-transition-new(root)'})).catch(()=>{});
+}
+$('.pals').addEventListener('click',e=>{ const b=e.target.closest('.pal'); if(b) setPal(b.dataset.p,e); });
+paintPal();
+
+// ---------- smooth scroll ----------
+let lenis=null, introOn=false;
+function initLenis(){
+  if(lenis || reduce || !window.Lenis) return;
+  lenis=new Lenis({ lerp:.095, smoothWheel:true });
+  const raf=t=>{ lenis.raf(t); requestAnimationFrame(raf); }; requestAnimationFrame(raf);
+  lenis.on('scroll',onScroll);
+}
+function go(target){ const el=typeof target==='string'?$(target):target; if(!el) return; if(lenis) lenis.scrollTo(el,{offset:0,duration:1.6}); else el.scrollIntoView({behavior:reduce?'auto':'smooth'}); }
+document.addEventListener('click',e=>{ const a=e.target.closest('a[href^="#"]'); if(!a || a.hasAttribute('data-case')) return; const h=a.getAttribute('href'); if(h.length<2) return; e.preventDefault(); go(h); });
+
+// ---------- clock ----------
+function tick(){ const t=new Date().toLocaleTimeString('en-GB',{timeZone:'Africa/Lagos',hour12:false}); $('#clock').textContent=t; $('#clock2').textContent=t.slice(0,5); }
+tick(); setInterval(tick,1000);
+
+// ---------- reveals ----------
+const rio=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('is-in'); rio.unobserve(e.target); } }),{rootMargin:'0px 0px -12% 0px'});
+function watch(root=document){ $$('.rv,.io,.feat,.ccard',root).forEach(el=>{ if(!el.closest('.hero')) rio.observe(el); }); }
+
+// ---------- the wordmark assembles from masked slices (expo-out, 25ms stagger) ----------
+async function assemble(wm,N=9,delay=0){
+  if(reduce) return;
+  wm.classList.add('assembling');
+  try{ await document.fonts.ready; }catch(e){}
+  const W=wm.scrollWidth, layer=document.createElement('div'); layer.className='wm-slices';
+  const html=[...wm.children].filter(n=>!n.classList.contains('wm-slices')).map(n=>n.outerHTML).join(''), anims=[];
+  for(let i=0;i<N;i++){
+    const sl=document.createElement('div'); sl.className='wm-slice'; sl.style.left=(i*W/N)+'px'; sl.style.width=(W/N+1)+'px';
+    const inner=document.createElement('div'); inner.className='wm-inner'; inner.innerHTML=html; inner.style.left=(-i*W/N)+'px'; inner.style.width=W+'px';
+    sl.appendChild(inner); layer.appendChild(sl);
+    anims.push(inner.animate([{transform:`translateX(${W*.42}px)`,opacity:0},{opacity:1,offset:.25},{transform:'translateX(0)',opacity:1}],{duration:1250+i*25,delay:delay+i*25,easing:'cubic-bezier(.16,1,.3,1)',fill:'backwards'}));
+  }
+  wm.appendChild(layer);
+  await Promise.all(anims.map(a=>a.finished)).catch(()=>{});
+  wm.classList.remove('assembling'); layer.remove();
+}
+
+// ---------- hero stage ----------
+const stage=$('#stage'), HERO=FEAT.slice(0,3).map(f=>CARDS.find(c=>c.id===f.id));
+let order=[0,1,2], cycleT=0;
+stage.innerHTML=HERO.map((c,i)=>`<button class="screen s${i} enter" type="button" data-id="${c.id}" aria-label="${esc(c.name)}"><div class="bar"><i></i><i></i><i></i><span>${host(c.live)}</span>${c.live?'<em>LIVE</em>':''}</div><div class="view"><img class="${LONG.has(c.id)?'tall':'fit'}" src="${img(c.id,true)}" alt=""></div><div class="shine"></div></button>`).join('');
+const screens=$$('.screen',stage);
+function paintNP(i,instant){
+  const c=HERO[i], np=$('#np');
+  const set=()=>{ $('#npN').textContent=`N°${pad2(c.rank+1)} / ${CARDS.length}`; $('#npT').textContent=c.name; $('#npD').textContent=c.flavor; };
+  if(instant||reduce){ set(); return; }
+  np.classList.add('out'); setTimeout(()=>{ set(); np.classList.remove('out'); },380);
+}
+function layout(){ order.forEach((si,slot)=>{ const el=screens[si]; el.classList.remove('s0','s1','s2'); el.classList.add('s'+slot); }); }
+function cycle(){ order.push(order.shift()); layout(); paintNP(order[0]); }
+function startCycle(){ clearInterval(cycleT); if(!reduce) cycleT=setInterval(cycle,5200); }
+paintNP(0,true);
+function revealHero(){ screens.forEach((s,i)=>setTimeout(()=>s.classList.remove('enter'),180+i*150)); $('#heroCopy').classList.add('is-in'); $$('.hero .rv').forEach(e=>e.classList.add('is-in')); startCycle(); }
+(function heroIn(){
+  const wm=$('#heroWm');
+  if(reduce){ wm.classList.remove('assembling'); revealHero(); return; }
+  assemble(wm,9,120);
+  setTimeout(revealHero,260);
+})();
+stage.addEventListener('mouseenter',()=>clearInterval(cycleT)); stage.addEventListener('mouseleave',startCycle);
+screens.forEach(s=>s.addEventListener('click',()=>{ const i=screens.indexOf(s); if(order[0]!==i){ while(order[0]!==i) order.push(order.shift()); layout(); paintNP(i); } else openCase(s.dataset.id); }));
+function setVH(){ screens.forEach(s=>s.style.setProperty('--vh',$('.view',s).clientHeight+'px')); $$('.ccard .media').forEach(m=>m.style.setProperty('--vh',(m.clientHeight-32)+'px')); }
+addEventListener('resize',setVH);
+if(fine && !reduce){ let raf=0; $('.hero').addEventListener('mousemove',e=>{ cancelAnimationFrame(raf); raf=requestAnimationFrame(()=>{ stage.style.setProperty('--px',((e.clientX/innerWidth)-.5).toFixed(3)); stage.style.setProperty('--py',((e.clientY/innerHeight)-.5).toFixed(3)); }); }); }
+
+// ---------- featured ----------
+$('#feats').innerHTML=FEAT.map((f,i)=>{ const c=CARDS.find(x=>x.id===f.id);
+  return `<article class="feat${i%2?' flip':''}" style="--c:var(--t-${c.type})">
+    <a class="media" href="#${c.id}" data-case="${c.id}" data-cursor="View case"><div class="bar"><i></i><i></i><i></i><span>${host(c.live)||c.id}</span>${c.live?'<em>LIVE</em>':''}</div><div class="view"><img class="${LONG.has(c.id)?'pan':'fit'}" src="${img(c.id,true)}" alt="${esc(c.name)}" loading="lazy" decoding="async"></div></a>
+    <div class="fmeta">
+      <span class="idx mono">${pad2(i+1)} — ${f.idx}</span>
+      <h3>${esc(c.name)}</h3>
+      <span class="pill ${f.pill[0]}">${esc(f.pill[1])}</span>
+      <p>${esc(f.text)}</p>
+      <ul class="built">${f.built.map(b=>`<li>${esc(b)}</li>`).join('')}</ul>
+      <div class="links"><a class="link" href="#${c.id}" data-case="${c.id}">Open case →</a>${c.live?`<a class="link" href="${c.live}" target="_blank" rel="noopener">Visit live ↗</a>`:''}${c.repo?`<a class="link" href="${c.repo}" target="_blank" rel="noopener">Source ↗</a>`:''}</div>
+    </div></article>`; }).join('');
+
+// ---------- clients ----------
+$('#cgrid').innerHTML=CLIENTS.map(k=>{ const c=CARDS.find(x=>x.id===k.id);
+  return `<article class="ccard" style="--c:var(--t-${c.type})">
+    <a class="media" href="#${c.id}" data-case="${c.id}" data-cursor="View case"><div class="bar"><i></i><i></i><i></i><span>${host(c.live)}</span><em>LIVE</em></div><div class="view"><img class="${LONG.has(c.id)?'tall':'fit'}" src="${img(c.id,true)}" alt="${esc(c.name)}" loading="lazy" decoding="async"></div></a>
+    <div class="cbody"><span class="who mono">${esc(k.who)}</span><h3>${esc(k.title)}</h3><p>${esc(k.line)}</p>
+    <div class="links"><a class="link" href="${c.live}" target="_blank" rel="noopener">Visit live ↗</a><a class="link" href="#${c.id}" data-case="${c.id}">Case →</a></div></div></article>`; }).join('');
+
+// ---------- scroll: pans, header, nav ----------
+let pans=[];
+function onScroll(){
+  const vh=innerHeight;
+  for(const im of pans){ const box=im.parentElement, r=box.getBoundingClientRect(); if(r.bottom<0||r.top>vh) continue;
+    const p=clamp((vh*.32-r.top)/(vh*.95),0,1), travel=Math.max(0,im.offsetHeight-box.clientHeight);
+    im.style.transform=`translate3d(0,${(-travel*p*.9).toFixed(1)}px,0)`; }
+  $('#hdr').classList.toggle('scrolled',(lenis?lenis.scroll:scrollY)>40);
+  let on=''; for(const id of ['work','clients','archive','process']){ const r=$('#'+id).getBoundingClientRect(); if(r.top<vh*.4 && r.bottom>vh*.4) on=id; }
+  $$('.nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')==='#'+on));
+}
+addEventListener('scroll',()=>{ if(!lenis) onScroll(); },{passive:true});
+
+// ---------- archive ----------
+const FILTERS=[['all','All'],['won','Winners'],['client','Client'],['agent','AI agents'],['market','Markets'],['money','Money'],['privacy','Privacy'],['edu','Education'],['tool','Tools'],['play','Play']];
+const match=(c,f)=> f==='all'||(f==='won'?c.status==='won':f==='client'?!!c.client:c.type===f);
+$('#tabs').innerHTML=FILTERS.map(([k,l])=>`<button class="tab" type="button" data-f="${k}" aria-pressed="${k==='all'}">${l}<sup>${CARDS.filter(c=>match(c,k)).length}</sup></button>`).join('');
+$('#rows').innerHTML=BYRANK.map((c,i)=>{ const [sc,sl]=statusOf(c);
+  return `<a class="row" href="#${c.id}" data-case="${c.id}" data-id="${c.id}"><span class="no">${pad2(i+1)}</span><span class="nm">${esc(c.name)}</span><span class="ev">${esc(c.event)}</span><span class="ty"><i style="background:var(--t-${c.type})"></i>${TYPES[c.type]}</span><span class="yr">${c.month.slice(0,4)}</span><span class="st ${sc}">${sl}</span><span class="go">↗</span></a>`; }).join('');
+$('#tabs').addEventListener('click',e=>{ const b=e.target.closest('.tab'); if(!b) return; const f=b.dataset.f; $$('.tab').forEach(x=>x.setAttribute('aria-pressed',x===b));
+  $$('.row').forEach(r=>{ const c=CARDS.find(x=>x.id===r.dataset.id), show=match(c,f); if(show && r.hidden){ r.hidden=false; if(!reduce) r.animate([{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'none'}],{duration:600,easing:'cubic-bezier(.16,1,.3,1)'}); } else if(!show) r.hidden=true; }); });
+const peek=$('#peek'), peekImg=$('img',peek); const pk={x:0,y:0,tx:0,ty:0,on:false};
+function pkLoop(){ const vx=pk.tx-pk.x; pk.x+=vx*.14; pk.y+=(pk.ty-pk.y)*.14; peek.style.transform=`translate(${(pk.x+40).toFixed(1)}px,${(pk.y-130).toFixed(1)}px) rotate(${clamp(vx*.06,-9,9).toFixed(2)}deg)`; if(pk.on) requestAnimationFrame(pkLoop); }
+$('#rows').addEventListener('pointermove',e=>{ if(!fine) return; const r=e.target.closest('.row'); pk.tx=e.clientX; pk.ty=e.clientY;
+  if(r){ const src=img(r.dataset.id,false); if(!peekImg.getAttribute('src')||!peekImg.src.endsWith(src)) peekImg.src=src; if(!pk.on){ pk.on=true; pk.x=pk.tx; pk.y=pk.ty; pkLoop(); } peek.classList.add('on'); } else { peek.classList.remove('on'); pk.on=false; } });
+$('#rows').addEventListener('pointerleave',()=>{ peek.classList.remove('on'); pk.on=false; });
+
+// ---------- cursor label ----------
+const cur=$('#cursor'); let cx=0,cy=0,tx=0,ty=0;
+function cLoop(){ cx+=(tx-cx)*.2; cy+=(ty-cy)*.2; cur.style.transform=`translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px) scale(${cur.classList.contains('on')?1:0})`; requestAnimationFrame(cLoop); }
+if(fine && !reduce){ cur.style.transition='none'; requestAnimationFrame(cLoop); addEventListener('pointermove',e=>{ tx=e.clientX; ty=e.clientY; const t=e.target.closest('[data-cursor]'); if(t){ cur.textContent=t.dataset.cursor.split(' ')[0]; cur.classList.add('on'); } else cur.classList.remove('on'); },{passive:true}); }
+
+// ---------- magnetic buttons ----------
+if(fine && !reduce) $$('.mag').forEach(b=>{ b.addEventListener('pointermove',e=>{ const r=b.getBoundingClientRect(); b.style.transform=`translate(${((e.clientX-r.left)/r.width-.5)*10}px,${((e.clientY-r.top)/r.height-.5)*10}px)`; }); b.addEventListener('pointerleave',()=>b.style.transform=''); });
+
+// ---------- project starter ----------
+const NEEDS=['AI agent / copilot','Voice AI','Web app / PWA','Admissions or booking site','Payments (cards, USDC, x402)','Smart contracts','Dashboard / data tool','E-learning','Trading / market tool','Game / interactive'];
+const BUDGETS=['Under $1k','$1k–3k','$3k–8k','$8k+','Not sure yet'];
+const TIMES=['ASAP','This month','1–3 months','Flexible'];
+const deck={needs:[],budget:'',time:'',name:'',idea:'',refs:[]};
+try{ const s=JSON.parse(store.get('nerom:brief')||'{}'); for(const k in deck) if(k in s) deck[k]=s[k]; }catch(e){}
+const save=()=>store.set('nerom:brief',JSON.stringify(deck));
+function opts(el,list,key,multi){
+  el.innerHTML=list.map(v=>`<button class="opt" type="button" role="${multi?'checkbox':'radio'}" aria-checked="${multi?deck[key].includes(v):deck[key]===v}">${esc(v)}</button>`).join('');
+  el.addEventListener('click',e=>{ const b=e.target.closest('.opt'); if(!b) return; const v=b.textContent;
+    if(multi) deck[key]=deck[key].includes(v)?deck[key].filter(x=>x!==v):[...deck[key],v]; else deck[key]=deck[key]===v?'':v;
+    $$('.opt',el).forEach(x=>x.setAttribute('aria-checked',multi?deck[key].includes(x.textContent):deck[key]===x.textContent)); save(); compose(); });
+}
+opts($('#optNeeds'),NEEDS,'needs',true); opts($('#optBudget'),BUDGETS,'budget'); opts($('#optTime'),TIMES,'time');
+$('#dName').value=deck.name; $('#dIdea').value=deck.idea;
+$('#dName').addEventListener('input',e=>{ deck.name=e.target.value; save(); compose(); });
+$('#dIdea').addEventListener('input',e=>{ deck.idea=e.target.value; save(); compose(); });
+function brief(){
+  const subj = deck.needs.length ? `[Project] ${deck.needs.slice(0,2).join(' + ')}${deck.needs.length>2?` +${deck.needs.length-2}`:''}${deck.budget?' · '+deck.budget:''}${deck.time?' · '+deck.time:''}` : 'Project for nerom';
+  const body=['Hi nerom,','',"I'd like to work with you on a project.",'',`Needs: ${deck.needs.join(', ')||'—'}`,`Budget: ${deck.budget||'—'}`,`Timeline: ${deck.time||'—'}`,...(deck.refs.length?[`Something like: ${deck.refs.join(', ')}`]:[]),'',"What I'm building:",deck.idea.trim()||'(a line or two here)','',`— ${deck.name.trim()}`,'','Sent from nerom.site'].join('\n');
+  return {subj,body};
+}
+function compose(){ const {subj,body}=brief(); $('#dDeal').href=`mailto:neromtoobad@gmail.com?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`; }
+compose();
+async function copyText(t){ try{ await navigator.clipboard.writeText(t); return true; }catch(e){ const x=document.createElement('textarea'); x.value=t; document.body.appendChild(x); x.select(); let ok=false; try{ok=document.execCommand('copy')}catch(_){} x.remove(); return ok; } }
+$('#dCopy').addEventListener('click',async()=>{ const {subj,body}=brief(); await copyText(`To: neromtoobad@gmail.com\nSubject: ${subj}\n\n${body}`); toast('Brief copied — paste it anywhere'); });
+$('#dDeal').addEventListener('click',()=>{ const {subj,body}=brief(); copyText(`Subject: ${subj}\n\n${body}`); setTimeout(()=>toast('Opening your mail app — brief copied too'),150); });
+$('#copyMail').addEventListener('click',async()=>{ await copyText('neromtoobad@gmail.com'); toast('Email copied — talk soon'); });
+
+// ---------- case view ----------
+const caseEl=$('#case'), sheet=$('#sheet'); let curId=null, lastFocus=null;
+const NEED_OF={agent:'AI agent / copilot',market:'Trading / market tool',money:'Payments (cards, USDC, x402)',privacy:'Smart contracts',tool:'Dashboard / data tool',play:'Game / interactive',edu:'E-learning'};
+const NEED_ID={keji:'Admissions or booking site',elap:'Web app / PWA',kejiai:'Web app / PWA',tote:'Voice AI',cysic:'Voice AI',cue:'Voice AI'};
+function fillCase(c){
+  const i=BYRANK.indexOf(c), [sc,sl]=statusOf(c);
+  caseEl.style.setProperty('--c',`var(--t-${c.type})`);
+  $('#cCount').textContent=`${pad2(i+1)} / ${CARDS.length}`;
+  $('#cIdx').textContent=`${pad2(i+1)} — ${TYPES[c.type]} · ${fmtMonth(c.month)}`;
+  $('#cTitle').textContent=c.name;
+  $('#cMeta').innerHTML=`<span class="pill ${sc}">${esc(sl)}</span><span class="pill">${esc(c.event)}</span>`;
+  $('#cUrl').textContent=host(c.live)||(c.repo?'github.com/neromtoobad/'+c.repo.split('/').pop():c.id);
+  const im=$('#cImg'); im.src=img(c.id,true); im.alt=c.name; $('#cView').scrollTop=0;
+  $('#cAbout').textContent=c.about;
+  $('#cStats').innerHTML=c.moves.map(([a,b])=>`<div class="stat"><b>${esc(b)}</b><span>${esc(a)}</span></div>`).join('');
+  const bl=BUILT[c.id]; $('#cBuiltWrap').hidden=!bl; if(bl) $('#cBuilt').innerHTML=bl.map(x=>`<li>${esc(x)}</li>`).join('');
+  $('#cTags').innerHTML=c.tags.map(t=>`<span>${esc(t)}</span>`).join('');
+  $('#cLinks').innerHTML=[c.live&&`<a class="link" href="${c.live}" target="_blank" rel="noopener">Visit live ↗</a>`, c.repo&&`<a class="link" href="${c.repo}" target="_blank" rel="noopener">Source ↗</a>`, c.extra&&`<a class="link" href="${c.extra[1]}" target="_blank" rel="noopener">${esc(c.extra[0])} ↗</a>`].filter(Boolean).join('');
+  curId=c.id; sheet.scrollTop=0;
+}
+function openCase(id,push=true){
+  const c=CARDS.find(x=>x.id===id); if(!c) return;
+  lastFocus=document.activeElement; fillCase(c);
+  caseEl.hidden=false; lenis?.stop(); document.documentElement.style.overflow='hidden';
+  requestAnimationFrame(()=>requestAnimationFrame(()=>caseEl.classList.add('open')));
+  if(push){ try{ history.replaceState(null,'','#'+id); }catch(e){} }
+  peek.classList.remove('on'); pk.on=false; cur.classList.remove('on');
+  if(fine) setTimeout(()=>$('.case-top [data-close]').focus({preventScroll:true}),60);
+}
+function closeCase(){
+  if(caseEl.hidden) return; caseEl.classList.remove('open');
+  try{ history.replaceState(null,'',location.pathname+location.search); }catch(e){}
+  setTimeout(()=>{ caseEl.hidden=true; lenis?.start(); document.documentElement.style.overflow=''; lastFocus?.focus?.({preventScroll:true}); },reduce?0:700);
+}
+function stepCase(d){ const i=BYRANK.findIndex(c=>c.id===curId), n=BYRANK[(i+d+BYRANK.length)%BYRANK.length]; fillCase(n); try{ history.replaceState(null,'','#'+n.id); }catch(e){}
+  if(!reduce) $('.case-head',sheet).animate([{opacity:0,transform:`translateX(${d*40}px)`},{opacity:1,transform:'none'}],{duration:700,easing:'cubic-bezier(.16,1,.3,1)'}); }
+document.addEventListener('click',e=>{ const t=e.target.closest('[data-case]'); if(!t) return; e.preventDefault(); openCase(t.dataset.case); });
+caseEl.addEventListener('click',e=>{ if(e.target.closest('[data-close]')) closeCase(); });
+$('#cPrev').addEventListener('click',()=>stepCase(-1)); $('#cNext').addEventListener('click',()=>stepCase(1));
+addEventListener('keydown',e=>{ if(caseEl.hidden) return; if(e.key==='Escape') closeCase(); else if(e.key==='ArrowRight') stepCase(1); else if(e.key==='ArrowLeft') stepCase(-1); });
+$('#cWant').addEventListener('click',()=>{ const c=CARDS.find(x=>x.id===curId), need=NEED_ID[c.id]||NEED_OF[c.type];
+  if(!deck.needs.includes(need)) deck.needs.push(need); if(!deck.refs.includes(c.name)) deck.refs.push(c.name); save();
+  $$('#optNeeds .opt').forEach(x=>x.setAttribute('aria-checked',deck.needs.includes(x.textContent))); compose();
+  closeCase(); setTimeout(()=>{ go('#contact'); toast(`Added to your brief — like ${c.name}`); },reduce?0:720); });
+function fromHash(){ const id=decodeURIComponent(location.hash.slice(1)); if(id && CARDS.some(c=>c.id===id) && caseEl.hidden) openCase(id,false); }
+addEventListener('hashchange',fromHash);
+
+// footer wordmark assembles when it comes into view
+new IntersectionObserver(([en],o)=>{ if(en.isIntersecting){ o.disconnect(); assemble($('#footWm'),11); } },{threshold:.35}).observe($('#footWm'));
+
+// ---------- boot ----------
+pans=$$('.feat .media img.pan');
+watch();
+setVH();
+const boot=()=>{ initLenis(); if(introOn) lenis?.stop(); onScroll(); setVH(); };
+if(document.readyState==='complete') boot(); else addEventListener('load',boot);
+if(location.hash) setTimeout(fromHash,500);
+</script>
+</body>
+</html>
