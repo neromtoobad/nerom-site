@@ -367,7 +367,7 @@ textarea.field{min-height:100px;resize:vertical;margin-top:10px;line-height:1.5}
   </section>
 
   <section class="sec" id="work">
-    <div class="sec-head"><h2 class="h2 io"><span class="line"><span class="in">Selected <em>work</em></span></span></h2><span class="count mono rv">04 featured · <span data-n="shipped">60</span> shipped</span></div>
+    <div class="sec-head"><h2 class="h2 io"><span class="line"><span class="in">Selected <em>work</em></span></span></h2><span class="count mono rv">05 featured · <span data-n="shipped">60</span> shipped</span></div>
     <div class="feats" id="feats"></div>
   </section>
 
@@ -609,11 +609,11 @@ const CARDS = [
  {"id": "ojima", "name": "Ojima Ob’Lama", "type": "web", "client": true, "event": "Client · ops & comms strategist", "flavor": "Good ideas fail in bad systems.", "about": "A portfolio for an operations and communications strategist in Abuja, laid out like a magazine profile. Case studies open as full-screen spreads, and her services read as the systems she builds for teams.", "moves": [["Case studies", "as spreads"], ["Look", "magazine profile"]], "tags": ["portfolio", "editorial", "case studies"], "live": "https://ojima.nerom.site", "status": "shp", "month": "2026-10", "shot": true}
 ];
 CARDS.forEach((c,i)=>{ c.no=i+1; });
-const BEST=['syncly','ropes','crossfire','optic','chit','causa','loft','encore','terms','kibble','cutroom','assign','oshi','owo','stowaway','ghosttown','vial','tideland','roost','receipts','scout','bincard','hindsight','ropesperps','doom','tote','cue','aliquot','mangoraid','9jasega','waterrings','nandarena','chogtown','keji','archigrapher','5ii5teen','elap','04rentals','ojima','stockback','sooth','gameweek','watchdog','glasstown','bluff','paypercall','commit','cysic','reel','forum','kejiai','results','semis-orb','delphi','skins','docpilot','wasmcheck','reverse-captcha','specter','beats'];
+const BEST=['syncly','ropes','crossfire','kibble','chit','causa','optic','loft','encore','terms','cutroom','assign','oshi','owo','stowaway','ghosttown','vial','tideland','roost','receipts','scout','bincard','hindsight','ropesperps','doom','tote','cue','aliquot','mangoraid','9jasega','waterrings','nandarena','chogtown','keji','archigrapher','5ii5teen','elap','04rentals','ojima','stockback','sooth','gameweek','watchdog','glasstown','bluff','paypercall','commit','cysic','reel','forum','kejiai','results','semis-orb','delphi','skins','docpilot','wasmcheck','reverse-captcha','specter','beats'];
 CARDS.forEach(c=>{ const r=BEST.indexOf(c.id); c.rank=r<0?99:r; });
 const BYRANK=CARDS.slice().sort((a,b)=>a.rank-b.rank);
 const TYPES={agent:'AI agents',market:'Markets',money:'Money',privacy:'Privacy',tool:'Tools',play:'Play',edu:'Education',web:'Websites'};
-const LONG=new Set(['syncly','crossfire','optic','kibble','keji']);
+const LONG=new Set(['syncly','crossfire','optic','kibble','keji','chit']);
 const img=(id,big)=> LONG.has(id)&&big ? `long/${id}.webp` : (big?`full/${id}.webp`:`shots/${id}.webp`);
 const host=u=>{ try{ return new URL(u).host.replace(/^www\./,''); }catch(e){ return ''; } };
 const FEAT=[
@@ -626,9 +626,12 @@ const FEAT=[
  { id:'crossfire', idx:'AI AGENTS · SMART ACCOUNTS', pill:['win','★ Winner — MetaMask × 1Shot × Venice'],
    text:'Five adversarial AI forecasters stake real USDC from a delegation the chain enforces — so an agent that bluffs can’t afford to look confident. You follow or fade each one with a revocable mandate.',
    built:['Five adversarial forecasting agents','Stakes enforced by ERC-7710 delegation','Follow or fade via ERC-7715 mandates','Revoke a mandate at any time'] },
- { id:'optic', idx:'AI AGENT · MARKET DATA', pill:['win','★ Winner — OKX.AI Trading Hackathon'],
-   text:'One agent that reads memecoins, prediction markets, tokenized stocks and social attention as one economy, and reports where they stop agreeing. No login, no API key — the x402 payment is the auth.',
-   built:['Nine paid services, x402 as the login','Listed on OKX.AI — agent #4380, 5.0 ★','Directive language lint-gated in code','Four markets read as one'] },
+ { id:'kibble', idx:'AI AGENT · STOCK PERPS', pill:['live','● Live · paper trading on Bitget'],
+   text:'A collectible creature that is also an AI agent holding a Bitget stock perpetual. Funding is its food and liquidation makes it faint. Every buy is a promise with a thesis, a target, a stop and a deadline, graded in public.',
+   built:['95 stock perps to adopt, each a creature','Funding every 8 h is its hunger','Every buy a promise, graded on a proof page','A hash-chained diary you can verify yourself'] },
+ { id:'chit', idx:'PRIVACY · ZCASH MAINNET', pill:['live','● Live · Zcash mainnet'],
+   text:'Prove one shielded Zcash payment and reveal nothing else. Chit turns a single shielded output into a certificate anyone can verify against the chain, without a viewing key ever changing hands.',
+   built:['Single-output disclosures, ZIP 311 style','Every check runs in your browser, in WebAssembly','Pay-and-prove invoices and payout ledgers','Burn Book: post anonymously by burning ZEC'] },
 ];
 const CLIENTS=[
  { id:'keji', who:'Kejicare Consult Ltd. · Admissions', title:'An admissions desk that takes the application and the fee.', line:'Programmes and fees, a step-by-step application, fee checkout, document upload, a status tracker and an admin dashboard.' },
@@ -645,6 +648,7 @@ const BUILT={ keji:['Programme & fee catalogue','Step-by-step application form',
   '04rentals':['16 items with real product photos','Cart with per-piece and per-dozen pricing','Order sent straight to WhatsApp','Shareable receipt image for every order','No account or card needed'],
   ojima:['Magazine-profile layout','Case studies as full-screen spreads','Services written as systems','Portrait and detail photography','Linkable case pages'] };
 FEAT.forEach(f=>BUILT[f.id]=f.built);
+BUILT.optic=['Nine paid services, x402 as the login','Listed on OKX.AI — agent #4380, 5.0 ★','Directive language lint-gated in code','Four markets read as one'];
 
 const $=(s,el=document)=>el.querySelector(s), $$=(s,el=document)=>[...el.querySelectorAll(s)];
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
